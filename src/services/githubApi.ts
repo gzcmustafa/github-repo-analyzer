@@ -16,6 +16,7 @@ api.interceptors.request.use(request => {
 api.interceptors.response.use(
   response => {
       console.log('Responsoe:',response.config.url,response.status)
+      return response;
   },
   error => {
       if(error.response) {

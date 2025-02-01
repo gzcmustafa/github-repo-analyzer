@@ -22,7 +22,7 @@ const initialState: GithubState = {
 
 export const fetchRepositories = createAsyncThunk(
   'github/fetchRepositories',
-  async (username:string) => {
+  async (username: string) => {
     return await githubService.getRepositories(username);
   }
 );
