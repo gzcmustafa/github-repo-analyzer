@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { FcSearch } from "react-icons/fc";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRepositories, setUsername,clearError } from '../redux/githubSlice';
+import { setUsername, fetchRepositories, setSelectedRepo, fetchRepositoryStats,clearError } from '../redux/githubSlice';
 import { AppDispatch, RootState } from '../redux/store';
+import { Grid } from 'react-loader-spinner'
 
 
 export default function SearchBar() {
   const [gitusername, setGitUsername]= useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);  
   const dispatch = useDispatch<AppDispatch>();
-  const { repositories,loading,error } = useSelector((state: RootState) => state.github);
+  const { repositories,reposLoading,error,username } = useSelector((state: RootState) => state.github);
 
   
 
@@ -24,13 +25,13 @@ export default function SearchBar() {
       
     }
   }
-  // const handleRepoSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedRepo = repositories.find(repo => repo.name === e.target.value);
-  //   if (selectedRepo) {
-  //     dispatch(setSelectedRepo(selectedRepo));
-  //     dispatch(fetchRepositoryStats({ username, repo: selectedRepo.name }));
-  //   }
-  // };
+  const handleRepoSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedRepo = repositories.find(repo => repo.name === e.target.value);
+    if (selectedRepo) {
+      dispatch(setSelectedRepo(selectedRepo));
+      dispatch(fetchRepositoryStats({ username, repo: selectedRepo.name }));
+    }
+  };
  
   return (
     <div className='w-full max-w-2xl space-y-4'>
@@ -38,7 +39,7 @@ export default function SearchBar() {
         <div className='relative'>
           <input 
           type='text'
-          value={gitusername}
+          value={gitusername.toLocaleLowerCase()}
           onChange={(e)=> {
             setGitUsername(e.target.value); 
             setIsSubmitted(false);
@@ -59,22 +60,33 @@ export default function SearchBar() {
           </button>
         </div>
       </form>
-      {loading && (
-        <p className="text-center text-gray-500">Loading...</p>
+      {reposLoading &&  (
+  <div className="flex justify-center items-center h-full">
+             <Grid
+        visible={true}
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="grid-loading"
+        radius="12.5"
+        wrapperStyle={{}}
+        wrapperClass="grid-wrapper"
+        />
+        </div>
       )}
       {error && (
         <p className="text-center text-gray-500">
           No such username found...
         </p>
       )}       
-      {!loading && !error && repositories.length === 0 && isSubmitted && (
+      {!reposLoading && !error && repositories.length === 0 && isSubmitted && (
         <p className="text-center text-gray-500">
           {gitusername} doesn't have any public repositories yet.
         </p>
       )} 
       {repositories.length > 0 && (
         <select 
-        // onChange={handleRepoSelect}
+        onChange={handleRepoSelect}
         className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"        
         defaultValue=""
         >

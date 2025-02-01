@@ -8,6 +8,7 @@ interface GithubState {
     selectedRepo: Repository | null;
     repoStats: RepositoryStats | null;
     loading:boolean;
+    reposLoading:boolean;
     error:string | null;
 }
 
@@ -17,6 +18,7 @@ const initialState: GithubState = {
   selectedRepo:null,
   repoStats:null,
   loading:false,
+  reposLoading:false,
   error:null,
 };
 
@@ -52,17 +54,17 @@ export const githubSlice = createSlice({
   extraReducers:(builder)=> {
     builder
     .addCase(fetchRepositories.pending, (state)=>{
-      state.loading = true;
+      state.reposLoading = true;
       state.error= null;
       state.repositories = [];
     })
     .addCase(fetchRepositories.fulfilled, (state,action)=>{
-      state.loading = false;
+      state.reposLoading = false;
       state.repositories = action.payload;
     })
     .addCase(fetchRepositories.rejected,(state,action)=>{
-      state.loading=false;
-      state.error =action.error.message  as string;
+      state.reposLoading=false;
+      state.error = action.error.message || "Failed to fetch repositories";
     })
     .addCase(fetchRepositoryStats.pending,(state)=>{
       state.loading=true;
@@ -74,7 +76,7 @@ export const githubSlice = createSlice({
     })
     .addCase(fetchRepositoryStats.rejected,(state,action)=>{
       state.loading=false;
-      state.error = action.error.message || "Failed"
+      state.error = action.error.message || "Failed to fetch repository stats";
     })
   }
 })

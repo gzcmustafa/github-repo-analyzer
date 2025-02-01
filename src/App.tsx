@@ -1,6 +1,7 @@
 import { Provider } from "react-redux"
 import { store } from "./redux/store"
 import SearchBar from "./components/SearchBar"
+import RepositoryStats from "./components/RepositoryStats"
 
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
             <SearchBar/>
             </div>
 
+            <div>
+            <RepositoryStats/>
+            </div>
 
             
             </div>
