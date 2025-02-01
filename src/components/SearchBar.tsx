@@ -1,20 +1,27 @@
 import React, { useState } from 'react'
 import { FcSearch } from "react-icons/fc";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRepositories, setUsername } from '../redux/githubSlice';
+import { fetchRepositories, setUsername,clearError } from '../redux/githubSlice';
 import { AppDispatch, RootState } from '../redux/store';
 
 
 export default function SearchBar() {
   const [gitusername, setGitUsername]= useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);  
   const dispatch = useDispatch<AppDispatch>();
-  const { repositories  } = useSelector((state: RootState) => state.github);
+  const { repositories,loading,error } = useSelector((state: RootState) => state.github);
+
+  
 
   const handleSubmit = (e:React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitted(!false); 
+    
+
     if(gitusername.trim()) {
       dispatch(setUsername(gitusername));
       dispatch(fetchRepositories(gitusername));
+      
     }
   }
   // const handleRepoSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,7 +39,14 @@ export default function SearchBar() {
           <input 
           type='text'
           value={gitusername}
-          onChange={(e)=>setGitUsername(e.target.value)}
+          onChange={(e)=> {
+            setGitUsername(e.target.value); 
+            setIsSubmitted(false);
+            if(e.target.value === '') {  
+              dispatch(setUsername(''));
+              dispatch(clearError());  
+            }
+          }}
           placeholder="Enter Github username..." 
           className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
@@ -45,7 +59,19 @@ export default function SearchBar() {
           </button>
         </div>
       </form>
-
+      {loading && (
+        <p className="text-center text-gray-500">Loading...</p>
+      )}
+      {error && (
+        <p className="text-center text-gray-500">
+          No such username found...
+        </p>
+      )}       
+      {!loading && !error && repositories.length === 0 && isSubmitted && (
+        <p className="text-center text-gray-500">
+          {gitusername} doesn't have any public repositories yet.
+        </p>
+      )} 
       {repositories.length > 0 && (
         <select 
         // onChange={handleRepoSelect}
@@ -62,7 +88,7 @@ export default function SearchBar() {
           }
           
         </select>
-      )}
+      ) }
     </div>
   )
 }

@@ -44,6 +44,9 @@ export const githubSlice = createSlice({
     setSelectedRepo: (state,action) =>{
       state.selectedRepo = action.payload;
       state.repoStats=null; // if there isn't this code , we'll see old repoStats information for a while
+    },
+    clearError: (state) => {    
+      state.error = null;
     }
   },
   extraReducers:(builder)=> {
@@ -51,6 +54,7 @@ export const githubSlice = createSlice({
     .addCase(fetchRepositories.pending, (state)=>{
       state.loading = true;
       state.error= null;
+      state.repositories = [];
     })
     .addCase(fetchRepositories.fulfilled, (state,action)=>{
       state.loading = false;
@@ -58,7 +62,7 @@ export const githubSlice = createSlice({
     })
     .addCase(fetchRepositories.rejected,(state,action)=>{
       state.loading=false;
-      state.error =action.error.message  || "Failed";
+      state.error =action.error.message  as string;
     })
     .addCase(fetchRepositoryStats.pending,(state)=>{
       state.loading=true;
@@ -76,6 +80,6 @@ export const githubSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setUsername, setSelectedRepo,} = githubSlice.actions
+export const { setUsername, setSelectedRepo,clearError} = githubSlice.actions
 
 export default githubSlice.reducer
