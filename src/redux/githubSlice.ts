@@ -1,26 +1,37 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { Repository, RepositoryStats } from '../types/types';
+import { PullRequest, Repository, RepositoryStats } from '../types/types';
 import * as githubService from "../services/githubApi"
 
 interface GithubState {
     username:string;
     repositories: Repository[];
+    pullRequests: PullRequest[];
     selectedRepo: Repository | null;
     repoStats: RepositoryStats | null;
-    loading:boolean;
+    repoStatusLoading:boolean;
     reposLoading:boolean;
+    prLoading:boolean;
     error:string | null;
 }
 
 const initialState: GithubState = {
   username:"",
   repositories: [],
+  pullRequests:[],
   selectedRepo:null,
   repoStats:null,
-  loading:false,
+  repoStatusLoading:false,
   reposLoading:false,
+  prLoading:false,
   error:null,
 };
+
+export const fetchPullRequests = createAsyncThunk(
+  `github/fetchPullRequests/`,
+  async({ username, repo }: { username: string; repo: string }) => {
+    return await githubService.getPR(username,repo);
+  }
+)
 
 export const fetchRepositories = createAsyncThunk(
   'github/fetchRepositories',
@@ -57,6 +68,9 @@ export const githubSlice = createSlice({
       state.reposLoading = true;
       state.error= null;
       state.repositories = [];
+      state.selectedRepo = null; 
+      state.repoStats = null;  
+      state.pullRequests = [];     
     })
     .addCase(fetchRepositories.fulfilled, (state,action)=>{
       state.reposLoading = false;
@@ -67,16 +81,29 @@ export const githubSlice = createSlice({
       state.error = action.error.message || "Failed to fetch repositories";
     })
     .addCase(fetchRepositoryStats.pending,(state)=>{
-      state.loading=true;
+      state.repoStatusLoading=true;
       state.error=null;
     })
     .addCase(fetchRepositoryStats.fulfilled,(state,action)=> {
-      state.loading=false;
-      state.repoStats = action.payload
+      state.repoStatusLoading=false;
+      state.repoStats = action.payload;
+      
     })
     .addCase(fetchRepositoryStats.rejected,(state,action)=>{
-      state.loading=false;
+      state.repoStatusLoading=false;
       state.error = action.error.message || "Failed to fetch repository stats";
+    })
+    .addCase(fetchPullRequests.pending,(state)=>{
+      state.prLoading=true;
+      state.error=null;
+    })
+    .addCase(fetchPullRequests.fulfilled,(state,action)=>{
+      state.prLoading=false;
+      state.pullRequests=action.payload;
+    })
+    .addCase(fetchPullRequests.rejected,(state,action)=>{
+      state.prLoading=false;
+      state.error = action.error.message || "Failed to fetch Pull Requests"
     })
   }
 })

@@ -1,14 +1,18 @@
-import { Provider } from "react-redux"
-import { store } from "./redux/store"
+
 import SearchBar from "./components/SearchBar"
 import RepositoryStats from "./components/RepositoryStats"
+import { PRMetrics } from "./components/PrMetrics"
+
+
+
 
 
 function App() {
 
+
   return (
     <>
-     <Provider store={store} >
+    
           <div className="min-h-screen  py-8 px-4">
             <div className="max-w-7xl mx-auto space-y-8">
             <div className="text-center">
@@ -24,11 +28,15 @@ function App() {
             <RepositoryStats/>
             </div>
 
+            <div className="">
+              <PRMetrics/>
+            </div>
+
             
             </div>
         
           </div>
-     </Provider>
+    
     </>
   )
 }
