@@ -27,7 +27,7 @@ export default function RepositoryStats() {
         : 0;
 
     return (
-        <div className="w-full max-w-3xl mx-auto">
+        <div className="w-full max-w-2xl space-y-4 mx-auto">
             <button
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="w-full bg-white border border-gray-400 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center justify-between"
@@ -138,9 +138,7 @@ export default function RepositoryStats() {
                                             />
                                             <div>
                                                 <p className="font-medium">{contributor.login}</p>
-                                                <p className="text-sm text-gray-600">
-                                                    {contributor.contributions} commits
-                                                </p>
+                                               
                                             </div>
                                         </div>
                                     ))}

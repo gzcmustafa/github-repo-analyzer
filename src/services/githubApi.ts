@@ -97,8 +97,7 @@ export const getPR = async (username: string, reponame: string): Promise<PullReq
           ...pr,
           reviews: reviews.data.length,
           additions: prRowDetails.data.additions,
-          deletions: prRowDetails.data.deletions,
-          changed_files: prRowDetails.data.changed_files
+          deletions: prRowDetails.data.deletions
         }
       })
     );
@@ -111,7 +110,6 @@ export const getPR = async (username: string, reponame: string): Promise<PullReq
 
   return allPR.map(pr => ({
     ...pr,
-    reviews: pr.reviews || 0,
     comments: pr.comments || 0,
     days_open: Math.ceil(
       (pr.closed_at 

@@ -31,12 +31,11 @@ export interface PullRequest {
     login: string;
     avatar_url: string;
   };
-  reviews: number;
   comments: number;
   days_open: number;
   additions: number;
   deletions: number;
-  changed_files: number;
+  
 }
 
 
