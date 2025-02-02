@@ -2,6 +2,7 @@
 import SearchBar from "./components/SearchBar"
 import RepositoryStats from "./components/RepositoryStats"
 import { PRMetrics } from "./components/PrMetrics"
+import CommitHourChart from "./components/CommitHourChart"
 
 
 
@@ -30,6 +31,10 @@ function App() {
 
             <div className="">
               <PRMetrics/>
+            </div>
+
+            <div className="">
+              <CommitHourChart/>
             </div>
 
             

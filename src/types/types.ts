@@ -38,7 +38,6 @@ export interface PullRequest {
   
 }
 
-
 export enum PRsizeChange {
   SMALL = 'small', // 0-200 rows
   MEDIUM = 'medium', // 201-500 rows
@@ -51,4 +50,12 @@ export interface PRMetrics {
   additions:number;
   deletions:number;
   totalChanges:number;
+}
+
+export interface Commits {
+  commit: {
+    author: {
+      date: string;
+    };
+  };
 }

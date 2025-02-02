@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Contributor, PullRequest, Repository, RepositoryStats } from "../types/types";
+import { Commits, Contributor, PullRequest, Repository, RepositoryStats } from "../types/types";
 
 const api = axios.create({
   baseURL: 'https://api.github.com',
@@ -32,6 +32,32 @@ api.interceptors.response.use(
       throw error;
   }
 );
+
+export const getCommitDate = async (username: string, repo: string): Promise<Commits[]> => {
+  let page = 1;
+  let allCommits: Commits[] = [];
+  let hasMorePages = true;
+
+  while (hasMorePages) {
+    const response = await api.get(`/repos/${username}/${repo}/commits`, {
+      params: {
+        per_page: 100,
+        page: page
+      }
+    });
+
+    const commits = response.data;
+    if (commits.length === 0) {
+      hasMorePages = false;
+    } else {
+      allCommits = [...allCommits, ...commits];
+      page++;
+    }
+  }
+
+  console.log('Total commits fetched:', allCommits.length);
+  return allCommits;
+}
 
 export const getRepositories = async (username: string): Promise<Repository[]> => {
  let page = 1;

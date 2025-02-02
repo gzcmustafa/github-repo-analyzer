@@ -1,30 +1,41 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { PullRequest, Repository, RepositoryStats } from '../types/types';
+import { Commits, PullRequest, Repository, RepositoryStats } from '../types/types';
 import * as githubService from "../services/githubApi"
 
 interface GithubState {
     username:string;
     repositories: Repository[];
     pullRequests: PullRequest[];
+    commits: Commits[] | null;
     selectedRepo: Repository | null;
     repoStats: RepositoryStats | null;
     repoStatusLoading:boolean;
     reposLoading:boolean;
     prLoading:boolean;
+    commitsLoading:boolean;
     error:string | null;
 }
 
 const initialState: GithubState = {
   username:"",
   repositories: [],
+  commits:null,
   pullRequests:[],
   selectedRepo:null,
   repoStats:null,
   repoStatusLoading:false,
   reposLoading:false,
   prLoading:false,
+  commitsLoading:false,
   error:null,
 };
+
+export const fetchCommitDate = createAsyncThunk(
+  `github/fetchCommitDate`,
+  async({username,repo}:  { username: string; repo: string }) => {
+    return await githubService.getCommitDate(username,repo)
+  }
+)
 
 export const fetchPullRequests = createAsyncThunk(
   `github/fetchPullRequests/`,
@@ -70,7 +81,8 @@ export const githubSlice = createSlice({
       state.repositories = [];
       state.selectedRepo = null; 
       state.repoStats = null;  
-      state.pullRequests = [];     
+      state.pullRequests = [];  
+      state.commits=null;   
     })
     .addCase(fetchRepositories.fulfilled, (state,action)=>{
       state.reposLoading = false;
@@ -104,6 +116,18 @@ export const githubSlice = createSlice({
     .addCase(fetchPullRequests.rejected,(state,action)=>{
       state.prLoading=false;
       state.error = action.error.message || "Failed to fetch Pull Requests"
+    })
+    .addCase(fetchCommitDate.pending,(state)=>{
+      state.commitsLoading = true;
+      state.error=null;
+    })
+    .addCase(fetchCommitDate.fulfilled,(state,action)=>{
+      state.commitsLoading = false;
+      state.commits = action.payload;
+    })
+    .addCase(fetchCommitDate.rejected,(state,action)=> {
+      state.commitsLoading = false;
+      state.error = action.error.message || "Failed to fetch Commit Date Requests"
     })
   }
 })
