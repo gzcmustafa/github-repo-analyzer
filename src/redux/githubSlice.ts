@@ -16,6 +16,8 @@ interface GithubState {
     prLoading:boolean;
     commitsLoading:boolean;
     readmeSummaryLoading:boolean;
+    fetchRepoError: string | null;
+    fetchSummaryError:string | null;
     error:string | null;
     
 }
@@ -33,6 +35,8 @@ const initialState: GithubState = {
   prLoading:false,
   commitsLoading:false,
   readmeSummaryLoading:false,
+  fetchRepoError:null,
+  fetchSummaryError:null,
   error:null,
   
 };
@@ -41,7 +45,6 @@ export const fetchReadmeSummary = createAsyncThunk(
   `github/fetchReadmeSummary`,
   async ({ username, repo }: { username: string; repo: string }) => {
     const readmeText = await githubService.getReadme(username, repo); // github api
-    if (!readmeText) return "No README found";
     const summary = await summarizeReadme(readmeText); //gemini Api
     return summary;
   }
@@ -94,7 +97,7 @@ export const githubSlice = createSlice({
     builder
     .addCase(fetchReadmeSummary.pending,(state)=> {
       state.readmeSummaryLoading = true;
-      state.error=null;
+      state.fetchSummaryError=null;
     })
     .addCase(fetchReadmeSummary.fulfilled,(state,action)=> {
       state.readmeSummaryLoading = false;
@@ -102,7 +105,7 @@ export const githubSlice = createSlice({
     })
     .addCase(fetchReadmeSummary.rejected,(state,action)=> {
       state.readmeSummaryLoading = false;
-      state.error = action.error.message || "Failed to fetch Readme Summary"
+      state.fetchSummaryError = action.error.message || "Failed to fetch Readme Summary"
     })
     .addCase(fetchRepositories.pending, (state)=>{
       state.reposLoading = true;
@@ -112,6 +115,7 @@ export const githubSlice = createSlice({
       state.repoStats = null;  
       state.pullRequests = [];  
       state.commits=null;   
+      state.readmeSummary=null;
     })
     .addCase(fetchRepositories.fulfilled, (state,action)=>{
       state.reposLoading = false;
@@ -123,7 +127,7 @@ export const githubSlice = createSlice({
     })
     .addCase(fetchRepositoryStats.pending,(state)=>{
       state.repoStatusLoading=true;
-      state.error=null;
+      state.fetchRepoError=null;
     })
     .addCase(fetchRepositoryStats.fulfilled,(state,action)=> {
       state.repoStatusLoading=false;
@@ -132,7 +136,7 @@ export const githubSlice = createSlice({
     })
     .addCase(fetchRepositoryStats.rejected,(state,action)=>{
       state.repoStatusLoading=false;
-      state.error = action.error.message || "Failed to fetch repository stats";
+      state.fetchRepoError = action.error.message || "Failed to fetch repository stats";
     })
     .addCase(fetchPullRequests.pending,(state)=>{
       state.prLoading=true;

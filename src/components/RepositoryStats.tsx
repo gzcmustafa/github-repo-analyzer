@@ -16,7 +16,7 @@ export default function RepositoryStats() {
         (state: RootState) => state.github
     );
     
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
    
    
     

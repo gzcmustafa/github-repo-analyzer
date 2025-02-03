@@ -1,15 +1,17 @@
 
 import SearchBar from "./components/SearchBar"
 import RepositoryStats from "./components/RepositoryStats"
-import { PRMetrics } from "./components/PrMetrics"
-import CommitHourChart from "./components/CommitHourChart"
 import RepoInfos from "./components/RepoInfos"
+import TeamAnalysis from "./components/TeamAnalysis"
+
+
 
 
 
 
 
 function App() {
+
 
 
   return (
@@ -26,21 +28,19 @@ function App() {
             <SearchBar/>
             </div>
 
+            <div className="">
+              <RepoInfos/>
+            </div>
+
             <div>
             <RepositoryStats/>
             </div>
 
-            <div className="">
-              <PRMetrics/>
-            </div>
+           <div>
+            <TeamAnalysis/>
+           </div>
 
-            <div className="">
-              <CommitHourChart/>
-            </div>
-
-            <div className="">
-              <RepoInfos/>
-            </div>
+            
 
             
             </div>

@@ -18,7 +18,7 @@ export default function SearchBar() {
   const [gitusername, setGitUsername] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { repositories, reposLoading, error, username } = useSelector(
+  const { repositories, reposLoading, fetchRepoError, username } = useSelector(
     (state: RootState) => state.github
   );
 
@@ -84,10 +84,10 @@ export default function SearchBar() {
           />
         </div>
       )}
-      {error && (
+      {fetchRepoError && (
         <p className="text-center text-gray-500">No such username found...</p>
       )}
-      {!reposLoading && !error && repositories.length === 0 && isSubmitted && (
+      {!reposLoading && !fetchRepoError && repositories.length === 0 && isSubmitted && (
         <p className="text-center text-gray-500">
           {gitusername} doesn't have any public repositories yet.
         </p>
