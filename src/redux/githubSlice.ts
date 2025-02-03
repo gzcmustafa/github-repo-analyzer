@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Commits, PullRequest, Repository, RepositoryStats } from '../types/types';
 import * as githubService from "../services/githubApi"
+import { summarizeReadme } from '../services/geminiApi';
 
 interface GithubState {
     username:string;
@@ -9,11 +10,14 @@ interface GithubState {
     commits: Commits[] | null;
     selectedRepo: Repository | null;
     repoStats: RepositoryStats | null;
+    readmeSummary: string | null;
     repoStatusLoading:boolean;
     reposLoading:boolean;
     prLoading:boolean;
     commitsLoading:boolean;
+    readmeSummaryLoading:boolean;
     error:string | null;
+    
 }
 
 const initialState: GithubState = {
@@ -23,12 +27,25 @@ const initialState: GithubState = {
   pullRequests:[],
   selectedRepo:null,
   repoStats:null,
+  readmeSummary:null,
   repoStatusLoading:false,
   reposLoading:false,
   prLoading:false,
   commitsLoading:false,
+  readmeSummaryLoading:false,
   error:null,
+  
 };
+
+export const fetchReadmeSummary = createAsyncThunk(
+  `github/fetchReadmeSummary`,
+  async ({ username, repo }: { username: string; repo: string }) => {
+    const readmeText = await githubService.getReadme(username, repo); // github api
+    if (!readmeText) return "No README found";
+    const summary = await summarizeReadme(readmeText); //gemini Api
+    return summary;
+  }
+)
 
 export const fetchCommitDate = createAsyncThunk(
   `github/fetchCommitDate`,
@@ -75,6 +92,18 @@ export const githubSlice = createSlice({
   },
   extraReducers:(builder)=> {
     builder
+    .addCase(fetchReadmeSummary.pending,(state)=> {
+      state.readmeSummaryLoading = true;
+      state.error=null;
+    })
+    .addCase(fetchReadmeSummary.fulfilled,(state,action)=> {
+      state.readmeSummaryLoading = false;
+      state.readmeSummary = action.payload;
+    })
+    .addCase(fetchReadmeSummary.rejected,(state,action)=> {
+      state.readmeSummaryLoading = false;
+      state.error = action.error.message || "Failed to fetch Readme Summary"
+    })
     .addCase(fetchRepositories.pending, (state)=>{
       state.reposLoading = true;
       state.error= null;

@@ -46,7 +46,7 @@ export default function CommitHourChart() {
             },
             title: {
                 display: true,
-                text: 'Hourly Commit Chart'
+                text: ''
             },
             tooltip: {
                 callbacks: {
@@ -64,7 +64,7 @@ export default function CommitHourChart() {
             x: {
                 title: {
                     display: true,
-                    text: 'Time Range'
+                    text: ''
                 },
                 grid: {
                     display: false
@@ -88,7 +88,9 @@ export default function CommitHourChart() {
     };
 
     return (
-        <div className="h-[390px] w-full max-w-2xl space-y-4 mx-auto">
+        <div className=" bg-white p-6 rounded-lg shadow-sm h-[390px] w-full max-w-2xl space-y-4 mx-auto">
+                      <h3 className="text-lg font-semibold mb-2">Hourly Commit Chart</h3>
+
             <Bar data={data} options={options} />
         </div>
     );

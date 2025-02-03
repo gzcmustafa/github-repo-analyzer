@@ -83,6 +83,13 @@ export const getRepositories = async (username: string): Promise<Repository[]> =
   return allRepos;
 };
 
+export const getReadme = async (username: string, repo:string): Promise<string | null> => {
+  const response = await api.get(`/repos/${username}/${repo}/readme`);
+  const readmeContent = atob(response.data.content);
+  return readmeContent
+
+}
+
 export const getRepositoryStats = async (username:string, repo:string): Promise<RepositoryStats> => {
   const [commits,languages,contributors] = await Promise.all([
     api.get(`/repos/${username}/${repo}/commits?per_page=1`),
