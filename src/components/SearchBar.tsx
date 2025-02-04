@@ -9,7 +9,8 @@ import {
   fetchPullRequests,
   clearError,
   fetchCommitDate,
-  fetchReadmeSummary
+  fetchReadmeSummary,
+  fetchCommitSummary
 } from "../redux/githubSlice";
 import { AppDispatch, RootState } from "../redux/store";
 import { Grid } from "react-loader-spinner";
@@ -41,6 +42,7 @@ export default function SearchBar() {
       dispatch(fetchPullRequests({  username, repo: selectedRepo.name }));
       dispatch(fetchCommitDate({username, repo:selectedRepo.name}))
       dispatch(fetchReadmeSummary({username,repo:selectedRepo.name}));
+      dispatch(fetchCommitSummary({username,repo:selectedRepo.name}))
     }
   };
 

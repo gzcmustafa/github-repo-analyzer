@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Commits, PullRequest, Repository, RepositoryStats } from '../types/types';
 import * as githubService from "../services/githubApi"
-import { summarizeReadme } from '../services/geminiApi';
+import { summarizeReadme, summarizeCommitDate } from '../services/geminiApi';
 
 interface GithubState {
     username:string;
@@ -11,13 +11,16 @@ interface GithubState {
     selectedRepo: Repository | null;
     repoStats: RepositoryStats | null;
     readmeSummary: string | null;
+    commitSummary:string | null;
     repoStatusLoading:boolean;
     reposLoading:boolean;
     prLoading:boolean;
     commitsLoading:boolean;
     readmeSummaryLoading:boolean;
+    commitSummaryLoading:boolean;
     fetchRepoError: string | null;
     fetchSummaryError:string | null;
+    fetchCommitSummaryError:string | null;
     error:string | null;
     
 }
@@ -30,16 +33,31 @@ const initialState: GithubState = {
   selectedRepo:null,
   repoStats:null,
   readmeSummary:null,
+  commitSummary:null,
   repoStatusLoading:false,
   reposLoading:false,
+  commitSummaryLoading:false,
   prLoading:false,
   commitsLoading:false,
   readmeSummaryLoading:false,
   fetchRepoError:null,
   fetchSummaryError:null,
+  fetchCommitSummaryError:null,
   error:null,
   
 };
+
+export const fetchCommitSummary= createAsyncThunk(
+  `github/fetchCommitSummary`,
+  async({username,repo}: {username: string, repo:string}) => {
+    const commitDate = await githubService.getCommitDate(username,repo); //githup api
+    const stringCommitDate = commitDate.map(commit => 
+      commit.commit.author.date
+    ).join('\n');
+    const summary = await summarizeCommitDate(stringCommitDate);
+    return summary;
+  }
+)
 
 export const fetchReadmeSummary = createAsyncThunk(
   `github/fetchReadmeSummary`,
@@ -95,6 +113,18 @@ export const githubSlice = createSlice({
   },
   extraReducers:(builder)=> {
     builder
+    .addCase(fetchCommitSummary.pending,(state)=>{
+      state.commitSummaryLoading=true;
+      state.fetchCommitSummaryError=null;
+    })
+    .addCase(fetchCommitSummary.fulfilled,(state,action)=> {
+      state.commitSummaryLoading=false;
+      state.commitSummary = action.payload;
+    })
+    .addCase(fetchCommitSummary.rejected,(state,action)=>{
+      state.commitSummaryLoading = false;
+      state.fetchCommitSummaryError = action.error.message || "Failed to fetch Commit Date Summary";
+    })
     .addCase(fetchReadmeSummary.pending,(state)=> {
       state.readmeSummaryLoading = true;
       state.fetchSummaryError=null;
@@ -116,6 +146,7 @@ export const githubSlice = createSlice({
       state.pullRequests = [];  
       state.commits=null;   
       state.readmeSummary=null;
+      state.commitSummary = null;
     })
     .addCase(fetchRepositories.fulfilled, (state,action)=>{
       state.reposLoading = false;

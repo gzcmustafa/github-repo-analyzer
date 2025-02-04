@@ -96,6 +96,7 @@ export const getRepositoryStats = async (username:string, repo:string): Promise<
     api.get(`/repos/${username}/${repo}/languages`),
     api.get(`/repos/${username}/${repo}/contributors`)
   ]);
+  
   const totalCommits = parseInt(commits.headers['link']?.match(/page=(\d+)>; rel="last"/)?.[1] || '1');
   return { 
     totalCommits,
