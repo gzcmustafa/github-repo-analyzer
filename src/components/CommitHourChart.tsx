@@ -91,10 +91,10 @@ export default function CommitHourChart() {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm h-[390px] w-full max-w-2xl space-y-4 mx-auto">
-            <h3 className="text-lg font-semibold mb-2">Hourly Commit Chart</h3>
+        <div className=" dark:bg-gray-800 dark:text-white bg-white p-6 rounded-lg shadow-sm h-[390px] w-full max-w-2xl space-y-4 mx-auto">
+            <h3 className="  dark:bg-gray-800 dark:text-white text-lg font-semibold mb-2">Hourly Commit Chart</h3>
             {commitsLoading ? (
-                <div className="flex justify-center items-center h-full">
+                <div className=" flex justify-center items-center h-full">
                 <Grid
                   visible={true}
                   height="80"

@@ -47,7 +47,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="w-full max-w-2xl space-y-4">
+    <div className=" dark:bg-gray-800 dark:text-white w-full max-w-2xl space-y-4">
       <form onSubmit={handleSubmit} className="w-full">
         <div className="relative">
           <input
@@ -62,18 +62,18 @@ export default function SearchBar() {
               }
             }}
             placeholder="Enter Github username..."
-            className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className=" dark:bg-gray-800 dark:text-white w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-gray-700"
+            className=" absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-gray-700"
           >
             <FcSearch size={30} />
           </button>
         </div>
       </form>
       {reposLoading && (
-        <div className="flex justify-center items-center h-full">
+        <div className=" dark:bg-gray-800 dark:text-white flex justify-center items-center h-full">
           <Grid
             visible={true}
             height="80"
@@ -90,14 +90,14 @@ export default function SearchBar() {
         <p className="text-center text-gray-500">No such username found...</p>
       )}
       {!reposLoading && !fetchRepoError && repositories.length === 0 && isSubmitted && (
-        <p className="text-center text-gray-500">
+        <p className="  dark:bg-gray-800 dark:text-white text-center text-gray-500">
           {gitusername} doesn't have any public repositories yet.
         </p>
       )}
       {repositories.length > 0 && (
         <select
           onChange={handleRepoSelect}
-          className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className=" dark:bg-gray-800 dark:text-white w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           defaultValue=""
         >
           <option value="" disabled>

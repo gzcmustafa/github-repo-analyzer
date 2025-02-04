@@ -27,19 +27,19 @@ export default function RepositoryStats() {
         : 0;
 
     return (
-        <div className="w-full max-w-2xl space-y-4 mx-auto">
+        <div className=" dark:bg-gray-800 dark:text-white w-full max-w-2xl space-y-4 mx-auto">
             <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="w-full bg-white border border-gray-400 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center justify-between"
+                className="w-full  dark:bg-gray-800 dark:text-white bg-white border border-gray-400 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center justify-between"
             >
-                <span className="font-semibold text-lg text-gray-900">
+                <span className="  dark:bg-gray-800 dark:text-white font-semibold text-lg text-gray-900">
                     Repository Statistics
                 </span>
                 {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </button>
 
             {isExpanded && (
-                <div className="mt-4 bg-white rounded-lg shadow-md p-6 space-y-6 transition-all">
+                <div className="  dark:bg-gray-800 dark:border-5 dark:border-gray-700 dark:text-white mt-4 bg-white rounded-lg shadow-md p-6 space-y-6 transition-all">
                     {repoStatusLoading ? (
                         <div className="flex justify-center items-center h-full">
                             <Grid
@@ -55,42 +55,42 @@ export default function RepositoryStats() {
                         </div>
                     ) : repoStats ? (
                         <>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div className="flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
+                            <div className="  dark:bg-gray-800 dark:text-white grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="  dark:bg-gray-700 dark:text-white flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
                                     <Star className="text-yellow-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Stars</p>
-                                        <p className="text-lg font-semibold">
+                                        <p className="  dark:bg-gray-700 dark:text-white text-sm text-gray-600">Stars</p>
+                                        <p className="  dark:bg-gray-700 dark:text-white text-lg font-semibold">
                                             {selectedRepo.stargazers_count}
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
+                                <div className="  dark:bg-gray-700 dark:text-white flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
                                     <GitFork className="text-blue-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Forks</p>
+                                        <p className=" dark:bg-gray-700 dark:text-white text-sm text-gray-600">Forks</p>
                                         <p className="text-lg font-semibold">
                                             {selectedRepo.forks_count}
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
+                                <div className="  dark:bg-gray-700 dark:text-white flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
                                     <GitCommit className="text-green-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Commits</p>
-                                        <p className="text-lg font-semibold">
+                                        <p className="  dark:bg-gray-700 dark:text-white text-sm text-gray-600">Commits</p>
+                                        <p className="  dark:bg-gray-700 dark:text-white text-lg font-semibold">
                                             {repoStats.totalCommits}
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
+                                <div className=" dark:bg-gray-700 dark:text-white flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
                                     <Users className="text-purple-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Contributors</p>
-                                        <p className="text-lg font-semibold">
+                                        <p className="  dark:bg-gray-700 dark:text-white text-sm text-gray-600">Contributors</p>
+                                        <p className=" dark:bg-gray-700 dark:text-white text-lg font-semibold">
                                             {repoStats.contributors.length}
                                         </p>
                                     </div>
@@ -98,22 +98,22 @@ export default function RepositoryStats() {
                             </div>
 
                             <div>
-                                <h3 className="text-lg font-semibold mb-3">Languages</h3>
+                                <h3 className="text-lg font-semibold mb-3  dark:bg-gray-800 dark:text-white">Languages</h3>
                                 <div className="space-y-2">
                                     {Object.entries(repoStats.languages).map(
                                         ([language, bytes]) => (
                                             <div key={language} className="space-y-1">
                                                 <div className="flex justify-between text-sm">
                                                     <span>{language}</span>
-                                                    <span className="text-gray-600">
+                                                    <span className="  dark:bg-gray-800 dark:text-white text-gray-600">
                                                         {((bytes / totalLanguageBytes) * 100).toFixed(1)}%
                                                     </span>
                                                 </div>
-                                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                                <div className="w-full  dark:bg-gray-800 dark:text-white bg-gray-200 rounded-full h-2">
                                                     <div
                                                         className="bg-blue-600 h-2 rounded-full"
                                                         style={{
-                                                            width: `${(bytes / totalLanguageBytes) * 100}%`,
+                                                            width: `${(bytes / totalLanguageBytes) * 100}%  dark:bg-gray-800 dark:text-white`,
                                                         }}
                                                     />
                                                 </div>
@@ -124,20 +124,20 @@ export default function RepositoryStats() {
                             </div>
 
                             <div>
-                                <h3 className="text-lg font-semibold mb-3">Contributors</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <h3 className="text-lg font-semibold mb-3  dark:bg-gray-800 dark:text-white">Contributors</h3>
+                                <div className="  dark:bg-gray-800 dark:text-white grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {repoStats.contributors.map((contributor) => (
                                         <div
                                             key={contributor.login}
-                                            className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                                            className=" dark:bg-gray-700 dark:text-white flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
                                         >
                                             <img
                                                 src={contributor.avatar_url}
                                                 alt={contributor.login}
-                                                className="w-10 h-10 rounded-full"
+                                                className=" dark:bg-gray-800 dark:text-white w-10 h-10 rounded-full"
                                             />
                                             <div>
-                                                <p className="font-medium">{contributor.login}</p>
+                                                <p className=" dark:bg-gray-700 dark:text-white font-medium">{contributor.login}</p>
                                                
                                             </div>
                                         </div>

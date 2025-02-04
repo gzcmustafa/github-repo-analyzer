@@ -50,7 +50,7 @@ const initialState: GithubState = {
 export const fetchCommitSummary= createAsyncThunk(
   `github/fetchCommitSummary`,
   async({username,repo}: {username: string, repo:string}) => {
-    const commitDate = await githubService.getCommitDate(username,repo); //githup api
+    const commitDate = await githubService.getCommitDate(username,repo); //github api
     const stringCommitDate = commitDate.map(commit => 
       commit.commit.author.date
     ).join('\n');
