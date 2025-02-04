@@ -14,25 +14,32 @@ export const summarizeReadme = async (text: string): Promise<string> => {
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
 
-    const prompt = `Analyze the GitHub README content below and provide clear and direct answers to the following questions:
+    const prompt = `
+    Analyze the following GitHub README content and answer the questions below in a clear and structured manner.  
+    Ensure that each answer is clear, descriptive,detailed and provides meaningful context.  
+    Do not merge multiple questions into one answer.  
+    Avoid extremely short responses—expand where necessary.  
+  
+  1. What is this repository? and What is the purpose of this repository? 
+  2. Who can use this repository?  
+  3. What problems does this repository solve?  
+  4. What technologies does it use?  
+  5. How can it be installed and used?  
+  6. Is this repository actively maintained?  
+  7. Is any license information mentioned? If so, provide information about this license type.
+  8. Does this README contain any warning signs (e.g., "Experimental", "Deprecated", "Not maintained")? If so, list them.
 
-      1. Give information about this repo, what is it?
-      2. What is this repo used for?
-      2. Who can use this repo?
-      3. What needs does this repo meet?
+  README: ${truncatedText}
 
-      README: ${truncatedText}
+  Format your response as follows:
 
-      Give your answers in the following format:
+  Question  
+  Response  
 
-      WHAT IS THIS REPO?:[Answer]----
+  Question  
+  Response 
+`;
 
-      WHAT IS THIS REPO USED FOR?:[Answer]----
-
-      WHO CAN USE THIS REPO?:[Answer]----
-
-      WHAT NEEDS DOES THIS REPO MEET?:[Answer]
-    `;
 
     const result = await model.generateContent(prompt);
 
