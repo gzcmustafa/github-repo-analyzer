@@ -25,7 +25,7 @@ export default function SearchBar() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(!false);
+    setIsSubmitted(true);
 
     if (gitusername.trim()) {
       dispatch(setUsername(gitusername));
@@ -86,11 +86,11 @@ export default function SearchBar() {
           />
         </div>
       )}
-      {fetchRepoError && (
-        <p className="text-center text-gray-500">No such username found...</p>
+      {!reposLoading && fetchRepoError && isSubmitted && (
+        <p className="text-center text-red-500">No such username found...</p>
       )}
       {!reposLoading && !fetchRepoError && repositories.length === 0 && isSubmitted && (
-        <p className="  dark:bg-gray-800 dark:text-white text-center text-gray-500">
+        <p className="dark:bg-gray-800 dark:text-white text-center text-gray-500">
           {gitusername} doesn't have any public repositories yet.
         </p>
       )}

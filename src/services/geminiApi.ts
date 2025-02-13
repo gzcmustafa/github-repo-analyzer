@@ -23,7 +23,7 @@ export const summarizeReadme = async (text: string): Promise<string> => {
    DO NOT use sentences like "The README itself doesn't explicitly", "The README provides no explicit"
     When information is not available, simply state what IS available rather than what is NOT available.
     Be direct and assertive in your responses without hedging or using phrases like "based on the excerpt" or "it's not possible to determine".
-
+    Show question, everytime
       
       1. What is this repository? and What is the purpose of this repository? 
       2. Who can use this repository?  

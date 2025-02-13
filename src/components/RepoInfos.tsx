@@ -28,7 +28,7 @@ export default function RepoInfos() {
             </button>
 
             {isExpanded && (
-                <div className=' dark:bg-gray-800 dark:text-white mt-4 bg-white rounded-lg shadow-md p-6 space-y-6 transition-all'>
+                <div className=' dark:border-5 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-4 bg-white rounded-lg shadow-md p-6 space-y-6 transition-all'>
 
                     {readmeSummaryLoading ? (
                         <div className=" flex flex-col justify-center items-center h-full">
@@ -46,9 +46,9 @@ export default function RepoInfos() {
                         </div>
 
                     ) : (fetchSummaryError ? (
-                        <div className=" dark:bg-gray-800 dark:text-white text-center  text-gray-500"> This {selectedRepo.name} repo doesn't have Readme.md yet.</div>
+                        <div className="  dark:bg-gray-800 dark:text-white text-center  text-gray-500"> This {selectedRepo.name} repo doesn't have Readme.md yet.</div>
                     ) : (
-                        <div className=" dark:bg-gray-800 dark:text-white space-y-6">
+                        <div className="  dark:bg-gray-800 dark:text-white space-y-6">
                             {readmeSummary.split(/Question|Response/).map((chunk, index) => {
                                 
                                 const cleanedChunk = chunk.trim();

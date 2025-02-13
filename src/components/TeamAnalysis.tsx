@@ -19,19 +19,19 @@ export default function TeamAnalysis() {
  
 
   return (
-    <div className=' dark:bg-gray-800 dark:text-white w-full max-w-2xl space-y-4 mx-auto'>
+    <div className='  dark:bg-gray-800 dark:text-white w-full max-w-2xl space-y-4 mx-auto'>
         <button
             onClick={()=>setIsExpanded(!isExpanded)}
             className="w-full  dark:bg-gray-800 dark:text-white bg-white border border-gray-400 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center justify-between"
             >
-                <span className="font-semibold text-lg text-gray-900">
+                <span className="font-semibold text-lg  dark:bg-gray-800 dark:text-white">
                         Team Analysis
                     </span>
                     {isExpanded ? <ChevronDown size={20}/> : <ChevronUp size={20}/>}
         </button>
 
         {isExpanded && (
-            <div className=' dark:border-5 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-4 bg-white rounded-lg shadow-md p-6 space-y-6 transition-all'>
+            <div className='  dark:border-5 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-4 bg-white rounded-lg shadow-md p-6 space-y-6 transition-all'>
                 <PRMetrics/>
                 <CommitHourChart/>
                <div>

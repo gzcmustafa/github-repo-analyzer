@@ -26,7 +26,7 @@ function App() {
         <div className="max-w-7xl mx-auto mt-24 space-y-8">
           <div>
             <div className="text-center">
-              <h1 className="text-3xl font-bold  dark:bg-gray-800 dark:text-white text-black mb-2">Githup Repository Analyzer</h1>
+              <h1 className="text-3xl font-bold  dark:bg-gray-800 dark:text-white text-black mb-2">Github Repository Analyzer</h1>
               <p className="text-gray-600  dark:bg-gray-800 dark:text-white mb-2">Enter a GitHub username to explore and get information their repositories</p>
             </div>
 
@@ -62,8 +62,9 @@ function App() {
             <br />
             <p>
 
-            It fetches data from GitHub API, processes repository metrics through created algorithms, and presents them as visual dashboards to help users understand their repository's performance at a glance. Additionally, some data is interpreted using an artificial intelligence model.         
-             </p>
+            It fetches data from GitHub API, processes this data through created algorithms, and presents them as visual dashboards to help users understand their repository's performance at a glance. Additionally, some data is interpreted using an artificial intelligence model.
+
+</p>
           </div>
     
           
