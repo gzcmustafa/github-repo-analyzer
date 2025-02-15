@@ -18,18 +18,24 @@ import { Grid } from "react-loader-spinner";
 export default function SearchBar() {
   const [gitusername, setGitUsername] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { repositories, reposLoading, fetchRepoError, username } = useSelector(
+  const { repositories, reposLoading, username } = useSelector(
     (state: RootState) => state.github
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
+    setNotFound(false);
 
     if (gitusername.trim()) {
-      dispatch(setUsername(gitusername));
-      dispatch(fetchRepositories(gitusername));
+      try {
+        dispatch(setUsername(gitusername));
+        await dispatch(fetchRepositories(gitusername)).unwrap();
+      } catch (error) {
+        setNotFound(true);
+      }
     }
   };
   const handleRepoSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -56,6 +62,7 @@ export default function SearchBar() {
             onChange={(e) => {
               setGitUsername(e.target.value);
               setIsSubmitted(false);
+              setNotFound(false);
               if (e.target.value === "") {
                 dispatch(setUsername(""));
                 dispatch(clearError());
@@ -86,10 +93,10 @@ export default function SearchBar() {
           />
         </div>
       )}
-      {!reposLoading && fetchRepoError && isSubmitted && (
+      {!reposLoading && notFound && (
         <p className="text-center text-red-500">No such username found...</p>
       )}
-      {!reposLoading && !fetchRepoError && repositories.length === 0 && isSubmitted && (
+      {!reposLoading && !notFound && repositories.length === 0 && isSubmitted && (
         <p className="dark:bg-gray-800 dark:text-white text-center text-gray-500">
           {gitusername} doesn't have any public repositories yet.
         </p>

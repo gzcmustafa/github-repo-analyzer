@@ -22,11 +22,12 @@ export interface Contributor {
 }
 export interface PullRequest {
   id: number;
-  number:number;
+  number: number;
   title: string;
-  state: 'open' | 'closed' | 'merged';
+  state: 'open' | 'closed';
   created_at: string;
-  closed_at:string;
+  closed_at: string | null;
+  merged_at: string | null;
   user: {
     login: string;
     avatar_url: string;
@@ -35,7 +36,6 @@ export interface PullRequest {
   days_open: number;
   additions: number;
   deletions: number;
-  
 }
 
 export enum PRsizeChange {

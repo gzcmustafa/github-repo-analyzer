@@ -10,12 +10,12 @@ import { Grid } from 'react-loader-spinner';
 export const PRMetrics: React.FC = () => {
   const { pullRequests, prLoading, selectedRepo } = useSelector((state: RootState) => state.github);
 
- 
+
   if (!selectedRepo) {
     return null;
   }
 
-  
+
   if (prLoading) {
     return (
       <div className=" flex justify-center items-center h-full">
@@ -33,7 +33,7 @@ export const PRMetrics: React.FC = () => {
     );
   }
 
- 
+
   if (pullRequests.length === 0) {
     return (
       <div className=" dark:bg-gray-800 dark:text-white bg-white p-6 rounded-lg shadow-sm w-full max-w-2xl mx-auto">
@@ -48,21 +48,35 @@ export const PRMetrics: React.FC = () => {
   const metrics = pullRequests.reduce((acc, pr) => {
     const prMetrics = calculatePRMetrics(pr.additions, pr.deletions);
     acc.sizes[prMetrics.size] = (acc.sizes[prMetrics.size] || 0) + 1;
-    
-    if (pr.closed_at && pr.state === 'closed') {
-      const closureTime = new Date(pr.closed_at).getTime() - new Date(pr.created_at).getTime();
-      acc.totalClosureTime += closureTime;
-      acc.closedCount++;
+
+    if (pr.closed_at) {
+      const timeToClose = new Date(pr.closed_at).getTime() - new Date(pr.created_at).getTime();
+
+      if (pr.merged_at) {
+        // Merge edilen PR'lar için süre
+        acc.totalMergeTime += timeToClose;
+        acc.mergedCount++;
+      } else {
+        // Merge edilmeden kapatılan PR'lar için süre
+        acc.totalClosureTime += timeToClose;
+        acc.closedCount++;
+      }
     }
-    
+
     return acc;
   }, {
     sizes: {} as Record<PRsizeChange, number>,
+    totalMergeTime: 0,
     totalClosureTime: 0,
+    mergedCount: 0,
     closedCount: 0
   });
 
-  const avgClosureTime = metrics.closedCount 
+  const avgMergeTime = metrics.mergedCount
+    ? Math.round(metrics.totalMergeTime / (metrics.mergedCount * 1000 * 60 * 60 * 24))
+    : 0;
+
+  const avgClosureTime = metrics.closedCount
     ? Math.round(metrics.totalClosureTime / (metrics.closedCount * 1000 * 60 * 60 * 24))
     : 0;
 
@@ -83,26 +97,44 @@ export const PRMetrics: React.FC = () => {
   return (
     <div className="  dark:bg-gray-800 dark:text-white bg-white p-6 rounded-lg shadow-sm w-full max-w-2xl space-y-4 mx-auto">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900  dark:bg-gray-800 dark:text-white">PR Analysis</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">PR Analysis</h3>
         <div className="mt-4 grid grid-cols-2 gap-4">
-          <div className="bg-gray-50 p-4 rounded-lg  dark:bg-gray-800 dark:text-white dark:border-5 dark:border-gray-700">
-            <p className="text-sm text-gray-600  dark:bg-gray-800 dark:text-white">Average closing time</p>
-            <p className="text-2xl font-semibold text-gray-900  dark:bg-gray-800 dark:text-white">{avgClosureTime} {avgClosureTime > 1 ? 'Days' : 'Day'}</p>
-            <p className="text-xs text-gray-500 mt-1  dark:bg-gray-800 dark:text-white">Based on {metrics.closedCount} closed PRs</p>
+          <div className="bg-gray-50 p-4 rounded-lg dark:bg-gray-800 dark:text-white dark:border-5 dark:border-gray-700">
+            <div className="space-y-4 mt-2">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-white">Average Time to Merge</p>
+                <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {avgMergeTime} {avgMergeTime > 1 ? 'Days' : 'Day'}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-white">Based on {metrics.mergedCount} merged PRs</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 dark:text-white">Average Time to Close (without merge)</p>
+                <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {avgClosureTime} {avgClosureTime > 1 ? 'Days' : 'Day'}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-white">Based on {metrics.closedCount} closed PRs</p>
+              </div>
+            </div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg  dark:bg-gray-800 dark:text-white dark:border-5 dark:border-gray-700">
-            <p className="text-sm text-gray-600  dark:bg-gray-800 dark:text-white">Pull Requests</p>
-            <p className="text-2xl font-semibold text-gray-900  dark:bg-gray-800 dark:text-white">{pullRequests.length}</p>
-            <div className="text-xs flex items-center  dark:bg-gray-800 dark:text-white">
-              <p className='text-red-600 text-lg  dark:bg-gray-800 dark:text-white'>{pullRequests.filter(pr => pr.state === 'open').length} Open •{''}</p>
-              <p className='text-green-600 text-lg ml-2  dark:bg-gray-800 dark:text-white'>{metrics.closedCount} Closed</p>
+          <div className=" flex flex-col justify-center gap-8 bg-gray-50 p-4 rounded-lg dark:bg-gray-800 dark:text-white dark:border-5 dark:border-gray-700">
+            <div> 
+              <p className="text-xl text-gray-600 dark:text-white">Pull Requests</p>
+              <p className="text-2xl font-semibold text-gray-900 dark:text-white">{pullRequests.length}</p>
+            </div>
+            <div className="text-xs flex items-center dark:text-white space-x-2">
+              <p className='text-yellow-600 text-lg'>{pullRequests.filter(pr => pr.state === 'open').length} Open</p>
+              <p>•</p>
+              <p className='text-green-600 text-lg'>{metrics.mergedCount} Merged</p>
+              <p>•</p>
+              <p className='text-red-600 text-sm'>{metrics.closedCount} Closed without merge</p>
             </div>
           </div>
         </div>
       </div>
       <div>
         <h4 className="text-sm font-medium text-gray-700 mb-2  dark:bg-gray-800 dark:text-white">PR Number</h4>
-        <Bar 
+        <Bar
           data={data}
           options={{
             responsive: true,
