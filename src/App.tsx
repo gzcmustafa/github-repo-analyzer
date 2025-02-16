@@ -13,7 +13,8 @@ function App() {
 
       <div className="  dark:bg-gray-800   min-h-screen   px-4">
 
-        <div className="w-full   dark:bg-gray-800 dark:text-white bg-gray-100 p-1 flex justify-between items-center">
+     <header>
+     <div className="w-full border border-transparent rounded-2xl sticky    dark:bg-gray-800 dark:text-white bg-gray-200 p-1 flex justify-between items-center">
           <div className="text-sm">Github Repository Analyzer</div>
           <button
           onClick={toggleTheme}
@@ -22,6 +23,7 @@ function App() {
             {theme === 'light' ? '🌙 Dark' : '☀️ Light'} Mode
             </button>
         </div>
+     </header>
 
         <div className="max-w-7xl mx-auto mt-24 space-y-8">
           <div>
