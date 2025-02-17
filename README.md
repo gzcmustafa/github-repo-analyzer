@@ -1,6 +1,11 @@
 # Repository Overview
 
 GitHub Repo Analyzer is a tool designed to provide detailed insights into GitHub repositories. It takes real-time data from the GitHub API and uses custom algorithms to create and visualize meaningful data. Some of this data is then analyzed by artificial intelligence to provide important insights and interpretations to the user.
+![GitHub Repo Analyzer](public/images/gra1.png)
+![GitHub Repo Analyzer](public/images/gra2.png)
+![GitHub Repo Analyzer](public/images/gra3.png)
+![GitHub Repo Analyzer](public/images/gra4.png)
+![GitHub Repo Analyzer](public/images/gra5.png)
 
 
 ## Features:

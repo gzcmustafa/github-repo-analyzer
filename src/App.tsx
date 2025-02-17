@@ -54,15 +54,15 @@ function App() {
 
         </div>
 
-        <div className="w-full mt-44 grid grid-cols-6 gap-4 place-items-center h-full">
+        <div className="w-full mt-44   2xl:mt-70 grid grid-cols-6 gap-4 place-items-center h-full px-16 ">
 
-          <div className="  dark:bg-gray-700 dark:text-white text-sm col-span-2  bg-gray-100 w-full p-10  rounded-lg shadow-xl  h-full "><h2>What is Github Repo Analyzer ?</h2>
+          <div className=" text-xs  dark:bg-gray-700 dark:text-white  col-span-2  bg-gray-100 w-full p-8  rounded-lg shadow-xl  h-full "><h2>What is Github Repo Analyzer ?</h2>
             <br />
             <p>
             GitHub data is processed using special algorithms, and graphical summaries are created. These are summarized with the support of artificial intelligence. Visual information is provided to help you understand repository activity and team collaboration.            </p>
           </div>
 
-          <div className=" dark:bg-gray-700 dark:text-white text-sm col-span-2 bg-gray-100 w-full h-full p-10 rounded-lg shadow-xl">
+          <div className=" text-xs dark:bg-gray-700 dark:text-white  col-span-2 bg-gray-100 w-full h-full p-8 rounded-lg shadow-xl">
             <h2 className="">How it works ?</h2>
             <br />
             <p>
@@ -74,7 +74,7 @@ function App() {
     
           
 
-          <div className="  dark:bg-gray-700 dark:text-white text-sm  col-span-2  bg-gray-100 rounded-lg shadow-xl w-full p-11 h-full">
+          <div className=" text-xs dark:bg-gray-700 dark:text-white   col-span-2  bg-gray-100 rounded-lg shadow-xl w-full p-8 h-full">
             <h2 className="">Help Us Improve?</h2>
               <br />
               <p>
