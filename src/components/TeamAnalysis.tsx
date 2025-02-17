@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { PRMetrics } from './PrMetrics'
 import CommitHourChart from './CommitHourChart'
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -9,7 +9,7 @@ import { Grid } from 'react-loader-spinner';
 
 export default function TeamAnalysis() {
     const [isExpanded, setIsExpanded] = useState(false);
-    const { selectedRepo,commitsLoading ,commitSummaryLoading,commitSummary  } = useSelector(
+    const { selectedRepo, commitSummaryLoading, commitSummary } = useSelector(
         (state: RootState) => state.github
     );
   
@@ -49,7 +49,7 @@ export default function TeamAnalysis() {
                  />
                </div>
                ) : (
-                commitSummary.split(/Question|Response/).map((chunk, index) => {
+                commitSummary?.split(/Question|Response/).map((chunk, index) => {
                                 
                     const cleanedChunk = chunk.trim();
 

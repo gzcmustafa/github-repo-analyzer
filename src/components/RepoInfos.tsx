@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from "../redux/store";
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -49,7 +49,7 @@ export default function RepoInfos() {
                         <div className="  dark:bg-gray-800 dark:text-white text-center  text-gray-500"> This {selectedRepo.name} repo doesn't have Readme.md yet.</div>
                     ) : (
                         <div className="  dark:bg-gray-800 dark:text-white space-y-6">
-                            {readmeSummary.split(/Question|Response/).map((chunk, index) => {
+                            {readmeSummary?.split(/Question|Response/).map((chunk, index) => {
                                 
                                 const cleanedChunk = chunk.trim();
 

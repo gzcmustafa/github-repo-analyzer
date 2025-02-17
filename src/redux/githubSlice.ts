@@ -63,6 +63,7 @@ export const fetchReadmeSummary = createAsyncThunk(
   `github/fetchReadmeSummary`,
   async ({ username, repo }: { username: string; repo: string }) => {
     const readmeText = await githubService.getReadme(username, repo); // github api
+    if (!readmeText) return '';
     const summary = await summarizeReadme(readmeText); //gemini Api
     return summary;
   }
