@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from "../redux/store";
-import { ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Grid } from 'react-loader-spinner';
 
 export default function RepoInfos() {
@@ -16,7 +16,7 @@ export default function RepoInfos() {
 
     return (
 
-        <div className=' dark:border-5 dark:border-gray-800 dark:bg-gray-800 dark:text-white w-full max-w-2xl space-y-4 mx-auto'>
+        <div className='  dark:border-gray-800 dark:bg-gray-800 dark:text-white w-full max-w-2xl space-y-4 mx-auto'>
             <button
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="w-full  dark:bg-gray-800 dark:text-white bg-white border border-gray-400 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center justify-between"
@@ -24,7 +24,7 @@ export default function RepoInfos() {
                 <span className="  dark:bg-gray-800 dark:text-white font-semibold text-lg text-gray-900">
                     About Repo
                 </span>
-                {isExpanded ? <ChevronUp size={20} /> : <ChevronUp size={20} />}
+                {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </button>
 
             {isExpanded && (

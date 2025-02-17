@@ -27,7 +27,7 @@ export default function TeamAnalysis() {
                 <span className="font-semibold text-lg  dark:bg-gray-800 dark:text-white">
                         Team Analysis
                     </span>
-                    {isExpanded ? <ChevronDown size={20}/> : <ChevronUp size={20}/>}
+                    {isExpanded ? <ChevronUp size={20}/> : <ChevronDown size={20}/>}
         </button>
 
         {isExpanded && (

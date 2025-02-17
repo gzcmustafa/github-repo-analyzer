@@ -15,7 +15,7 @@ export const summarizeReadme = async (text: string): Promise<string> => {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
 
     const prompt = `
-    Analyze the following GitHub README content and answer the questions below in a clear and structured manner.  
+    Analyze the following GitHub README content and answer the questions below in a clear and structured manner and if there isn't answer on readme you can interpret.  
     Ensure that each answer is clear, descriptive,detailed and provides meaningful context.  
     Do not merge multiple questions into one answer.  
     Avoid extremely short responses—expand where necessary.  

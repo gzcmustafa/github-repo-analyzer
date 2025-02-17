@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FcSearch } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,6 +23,14 @@ export default function SearchBar() {
   const { repositories, reposLoading, username } = useSelector(
     (state: RootState) => state.github
   );
+
+  useEffect(() => {
+    if (username === "") {
+      setGitUsername("");
+      setIsSubmitted(false);
+      setNotFound(false);
+    }
+  }, [username]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

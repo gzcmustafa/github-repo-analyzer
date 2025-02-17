@@ -1,21 +1,24 @@
-
 import SearchBar from "./components/SearchBar"
 import RepositoryStats from "./components/RepositoryStats"
 import RepoInfos from "./components/RepoInfos"
 import TeamAnalysis from "./components/TeamAnalysis"
 import { useTheme } from "./context/ThemeContext";
+import { useDispatch } from 'react-redux';
+import { resetState } from './redux/githubSlice';
 
 function App() {
   const { theme, toggleTheme } = useTheme();
+  const dispatch = useDispatch();
 
   return (
     <>
 
-      <div className="  dark:bg-gray-800   min-h-screen   px-4">
+      <div className="  dark:bg-gray-800   min-h-screen   ">
 
      <header>
-     <div className="w-full border border-transparent rounded-2xl sticky    dark:bg-gray-800 dark:text-white bg-gray-200 p-1 flex justify-between items-center">
-          <div className="text-sm">Github Repository Analyzer</div>
+     <div className="w-full border border-transparent   dark:bg-gray-900 dark:text-white bg-gray-200 p-1 flex justify-between items-center">
+          <div  onClick={() => dispatch(resetState())}
+          className="text-sm hover:text-blue-500 transition-colors cursor-pointer">Github Repository Analyzer</div>
           <button
           onClick={toggleTheme}
           className=" cursor-pointer p-2 rounded bg-white dark:bg-gray-800  dark:text-white  text-blacktransition"
@@ -82,9 +85,6 @@ function App() {
      
         
         </div>
-
-
-
       </div>
 
 

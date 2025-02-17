@@ -109,7 +109,8 @@ export const githubSlice = createSlice({
     },
     clearError: (state) => {    
       state.error = null;
-    }
+    },
+    resetState: () => initialState,
   },
   extraReducers:(builder)=> {
     builder
@@ -197,6 +198,6 @@ export const githubSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setUsername, setSelectedRepo,clearError} = githubSlice.actions
+export const { setUsername, setSelectedRepo, clearError, resetState } = githubSlice.actions
 
 export default githubSlice.reducer
