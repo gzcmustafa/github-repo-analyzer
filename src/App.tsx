@@ -54,7 +54,7 @@ function App() {
 
         </div>
 
-        <div className="w-full mt-44   2xl:mt-70 grid grid-cols-6 gap-4 place-items-center h-full px-16 ">
+        <div className="w-full mt-44  flex flex-col gap-2  2xl:mt-70 sm:grid sm:grid-cols-6 sm:gap-4 place-items-center h-full px-16 ">
 
           <div className=" text-xs  dark:bg-gray-700 dark:text-white  col-span-2  bg-gray-100 w-full p-8  rounded-lg shadow-xl  h-full "><h2>What is Github Repo Analyzer ?</h2>
             <br />
